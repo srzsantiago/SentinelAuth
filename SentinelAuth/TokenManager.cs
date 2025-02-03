@@ -1,7 +1,5 @@
-﻿namespace SentinelAuth
-{
-    public class TokenManager
-    {
+﻿namespace SentinelAuth;
 
-    }
+public class TokenManager
+{
 }

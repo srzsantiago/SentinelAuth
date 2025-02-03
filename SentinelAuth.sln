@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SentinelAuth", "SentinelAuth\SentinelAuth.csproj", "{9EB00993-A522-4D6C-82CB-FC956B505D49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SentinelAuth.Test", "SentinelAuth.Test\SentinelAuth.Test.csproj", "{AD7A0DA8-B7F4-4BFD-92B9-16ADE91B1C16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9EB00993-A522-4D6C-82CB-FC956B505D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EB00993-A522-4D6C-82CB-FC956B505D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EB00993-A522-4D6C-82CB-FC956B505D49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD7A0DA8-B7F4-4BFD-92B9-16ADE91B1C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD7A0DA8-B7F4-4BFD-92B9-16ADE91B1C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD7A0DA8-B7F4-4BFD-92B9-16ADE91B1C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD7A0DA8-B7F4-4BFD-92B9-16ADE91B1C16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
