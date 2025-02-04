@@ -1,12 +1,25 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Konscious.Security.Cryptography;
+﻿using System.Text;
 using SentinelAuth.Config;
+using SentinelAuth.Interfaces;
+using SentinelAuth.Wrappers;
 
 namespace SentinelAuth;
 
-public class PasswordManager(HashingConfig config)
+public class PasswordManager(HashingConfig hashingConfig, IArgonWrapper argon2Wrapper)
 {
+    private readonly HashingConfig _config = hashingConfig;
+    private readonly IArgonWrapper _argonWrapper = argon2Wrapper;
+
+    // Default constructor (uses real implementation)
+    public PasswordManager() : this(new HashingConfig(), new ArgonWrapper())
+    {
+    }
+
+    // Constructor that allows setting a custom HashingConfig
+    public PasswordManager(HashingConfig hashingConfig) : this(hashingConfig, new ArgonWrapper())
+    {
+    }
+
     private const string _VERSION = "1.0";
     private const string _HASH_PREFIX = $"$SENHASH$V{_VERSION}";
 
@@ -20,15 +33,15 @@ public class PasswordManager(HashingConfig config)
     {
         byte[] passwordInBytes = Encoding.UTF8.GetBytes(password);
 
-        using var argon2Algorithm = new Argon2id(passwordInBytes)
-        {
-            Salt = salt,
-            MemorySize = config.MemorySize,
-            DegreeOfParallelism = config.DegreeOfParallelism,
-            Iterations = config.Iterations,
-        };
+        byte[] passwordHash = _argonWrapper.HashPassword(
+            passwordInBytes,
+            salt,
+            _config.MemorySize,
+            _config.DegreeOfParallelism,
+            _config.Iterations,
+            _config.HashSize
+        );
 
-        byte[] passwordHash = argon2Algorithm.GetBytes(config.HashSize);
         return string.Format("{0}${1}${2}", _HASH_PREFIX, Convert.ToHexString(salt), Convert.ToHexString(passwordHash));
     }
 
@@ -36,9 +49,9 @@ public class PasswordManager(HashingConfig config)
     /// Generates a signed password hash from the given input which should be stored to further use.
     /// </summary>
     /// <returns>Password hash</returns>
-    public string CreateNewPassword(string input)
+    public string CreateNewPasswordHash(string password)
     {
-        return HashPassword(input, CreateSalt());
+        return HashPassword(password, CreateSalt());
     }
 
     /// <summary>
@@ -53,19 +66,18 @@ public class PasswordManager(HashingConfig config)
         {
             return false;
         }
-        SplitHashString(storedPasswordString, out string salt, out string passwordHash);
 
-        byte[] saltInBytes = Convert.FromHexString(salt);
+        byte[] saltInBytes = Convert.FromHexString(GetSaltFromPasswordHash(storedPasswordString));
         string passwordInputHash = HashPassword(passwordInput, saltInBytes);
         return storedPasswordString.Equals(passwordInputHash);
-    }  
+    }
 
     /// <summary>
     /// Creates a random bytes array with the length of the configurated salt size.
     /// </summary>
     private byte[] CreateSalt()
     {
-        return RandomNumberGenerator.GetBytes(config.SaltSize);
+        return _argonWrapper.CreateSalt(_config.SaltSize);
     }
 
     /// <summary>
@@ -77,12 +89,11 @@ public class PasswordManager(HashingConfig config)
     }
 
     /// <summary>
-    /// Is given a passwordHash and split the value in the actual hash and the salt.
+    /// Gets the salt from a given password hash.
     /// </summary>
-    private static void SplitHashString(string storedHash, out string salt, out string hash)
+    private static string GetSaltFromPasswordHash(string storedHash)
     {
         string[]? splittedHashString = storedHash.Replace(_HASH_PREFIX, "").Split('$');
-        salt = splittedHashString[1];
-        hash = splittedHashString[2];
+        return splittedHashString[1];
     }
 }
