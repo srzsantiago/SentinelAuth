@@ -3,12 +3,12 @@ using SentinelAuth.Config;
 using SentinelAuth.Interfaces;
 using SentinelAuth.Wrappers;
 
-namespace SentinelAuth;
+namespace SentinelAuth.Authentication;
 
-public class PasswordManager(HashingConfig hashingConfig, IArgonWrapper argon2Wrapper)
+public class PasswordManager(HashingConfig config, IArgonWrapper argonWrapper)
 {
-    private readonly HashingConfig _config = hashingConfig;
-    private readonly IArgonWrapper _argonWrapper = argon2Wrapper;
+    private readonly HashingConfig _config = config;
+    private readonly IArgonWrapper _argonWrapper = argonWrapper;
 
     // Default constructor (uses real implementation)
     public PasswordManager() : this(new HashingConfig(), new ArgonWrapper())

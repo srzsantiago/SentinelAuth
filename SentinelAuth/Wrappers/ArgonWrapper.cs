@@ -2,6 +2,7 @@
 using Konscious.Security.Cryptography;
 using SentinelAuth.Interfaces;
 
+
 namespace SentinelAuth.Wrappers;
 
 public class ArgonWrapper : IArgonWrapper
