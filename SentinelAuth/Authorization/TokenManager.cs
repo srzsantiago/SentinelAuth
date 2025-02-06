@@ -17,6 +17,10 @@ public class TokenManager(JwtConfig config, IJwtWrapper jwtWrapper)
     {
     }
 
+    /// <summary>
+    /// Generate a signed Json Web Token (JWT) containing unsensitive user data. It makes use of the given JwtConfig.
+    /// </summary>
+    /// <returns>string JWT token</returns>
     public string GenerateJwtToken(SentinelUser user)
     {
         ArgumentNullException.ThrowIfNull(user);

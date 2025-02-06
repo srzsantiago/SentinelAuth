@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using NSubstitute;
-using SentinelAuth.Authentication;
 using SentinelAuth.Authorization;
 using SentinelAuth.Config;
 using SentinelAuth.Interfaces;
@@ -42,11 +41,11 @@ public sealed class TokenManagerTest
         mockJwtWrapper.CreateTokenDescriptor(Arg.Any<ClaimsIdentity>(), Arg.Any<JwtConfig>(), Arg.Any<byte[]>())
             .Returns(new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor());
         JwtConfig config = new()
-        { 
-            Secret = "YourCustomSuperSecureJWTSigningKey123456789", 
-            Issuer = "Customtest", 
-            Audience = "Customtest", 
-            ExpiryMinutes = 20 
+        {
+            Secret = "YourCustomSuperSecureJWTSigningKey123456789",
+            Issuer = "Customtest",
+            Audience = "Customtest",
+            ExpiryMinutes = 20
         };
         var user = new SentinelUser() { Id = Guid.NewGuid(), Username = "testUser", Role = "Admin" };
         _sut = new TokenManager(config, mockJwtWrapper);
