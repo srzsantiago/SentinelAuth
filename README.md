@@ -17,7 +17,7 @@
   <a href="https://saythanks.io/to/srzsantiago" target="_blank">
       <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
   </a>
-  <a href="paypal.me/srzsantiago" target="_blank">
+  <a href="https://paypal.me/srzsantiago" target="_blank">
     <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
   </a>
 </p>
