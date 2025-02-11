@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="http://www.google.com" target="_blank"><img src="https://raw.githubusercontent.com/srzsantiago/sentinelauth/master/assets/img/logo.webp" alt="SentinelAuth" width="200"></a>
+  <a href="http://www.google.com" target="_blank"><img src="https://raw.githubusercontent.com/srzsantiago/sentinelauth/master/assets/img/logo.jpg" alt="SentinelAuth" width="200"></a>
   <br>
   SentinelAuth
   <br>
@@ -41,7 +41,7 @@ To use this package, you'll need to install your desired version from the NuGet 
 
 ```bash
 # Install the package
-$ dotnet add package SentinelAuth
+$ dotnet add package Cesala.SentinelAuth
 
 ```
 
