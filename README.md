@@ -10,11 +10,11 @@
 <h4 align="center">A simple auth package that uses <a href="https://github.com/P-H-C/phc-winner-argon2" target="_blank">Argon2</a> for authentication and <a href="https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet" target="_blank">JWT</a> for authorization.</h4>
 
 <p align="center">
-  <a href="https://badge.fury.io/js/electron-markdownify">
-    <img src="https://badge.fury.io/nu/Pulumi.DigitalOcean.svg"
+  <a href="https://badge.fury.io/nu/Cesala.SentinelAuth" target="_blank">
+    <img src="https://badge.fury.io/nu/Cesala.SentinelAuth.svg"
          alt="Nugetpackage">
   </a>
-  <a href="https://saythanks.io/to/srzsantiago">
+  <a href="https://saythanks.io/to/srzsantiago" target="_blank">
       <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
   </a>
   <a href="paypal.me/srzsantiago" target="_blank">
