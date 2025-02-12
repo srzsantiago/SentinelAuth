@@ -5,7 +5,7 @@ using SentinelAuth.Wrappers;
 
 namespace SentinelAuth.Authentication;
 
-public class PasswordManager(HashingConfig config, IArgonWrapper argonWrapper)
+public class PasswordManager(HashingConfig config, IArgonWrapper argonWrapper) : IPasswordManager
 {
     private readonly HashingConfig _config = config;
     private readonly IArgonWrapper _argonWrapper = argonWrapper;

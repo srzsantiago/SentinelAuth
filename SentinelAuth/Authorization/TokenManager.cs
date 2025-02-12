@@ -7,7 +7,7 @@ using SentinelAuth.Wrappers;
 
 namespace SentinelAuth.Authorization;
 
-public class TokenManager(JwtConfig config, IJwtWrapper jwtWrapper)
+public class TokenManager(JwtConfig config, IJwtWrapper jwtWrapper) : ITokenManager
 {
     private readonly JwtConfig _config = config;
     private readonly IJwtWrapper _jwtWrapper = jwtWrapper;
