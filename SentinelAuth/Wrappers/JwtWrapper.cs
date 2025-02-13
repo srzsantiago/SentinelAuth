@@ -6,8 +6,11 @@ using SentinelAuth.Interfaces;
 using SentinelAuth.Models;
 
 namespace SentinelAuth.Wrappers;
+
+/// <inheritdoc />
 public class JwtWrapper : IJwtWrapper
 {
+    /// <inheritdoc />
     public ClaimsIdentity CreateIdentityClaim(SentinelUser user)
     {
         return new ClaimsIdentity(
@@ -18,6 +21,7 @@ public class JwtWrapper : IJwtWrapper
         ]);
     }
 
+    /// <inheritdoc />
     public SecurityTokenDescriptor CreateTokenDescriptor(ClaimsIdentity identityClaim, JwtConfig config, byte[] secretKey)
     {
         return new SecurityTokenDescriptor

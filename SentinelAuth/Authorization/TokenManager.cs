@@ -7,20 +7,21 @@ using SentinelAuth.Wrappers;
 
 namespace SentinelAuth.Authorization;
 
+/// <inheritdoc />
 public class TokenManager(JwtConfig config, IJwtWrapper jwtWrapper) : ITokenManager
 {
     private readonly JwtConfig _config = config;
     private readonly IJwtWrapper _jwtWrapper = jwtWrapper;
 
-    // Constructor that allows setting a custom JwtConfig
+    /// <summary>
+    /// Constructor that allows setting a custom JwtConfig
+    /// </summary>
+    /// <param name="config"></param>
     public TokenManager(JwtConfig config) : this(config, new JwtWrapper())
     {
     }
 
-    /// <summary>
-    /// Generate a signed Json Web Token (JWT) containing unsensitive user data. It makes use of the given JwtConfig.
-    /// </summary>
-    /// <returns>string JWT token</returns>
+    /// <inheritdoc />
     public string GenerateJwtToken(SentinelUser user)
     {
         ArgumentNullException.ThrowIfNull(user);

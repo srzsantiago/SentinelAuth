@@ -5,14 +5,18 @@
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
 	<PackageId>Cesala.SentinelAuth</PackageId>
-	<Version>1.0.0-alpha.3</Version>
+	<Version>1.0.0-alpha.4</Version>
 	<Author>Santiago Rodriguez</Author>
 	<ProductName>SentinelAuth</ProductName>
 	<Description>A simple auth package that uses Argon2 for authentication and JWT for authorization.</Description>
 	<RepositoryUrl>https://github.com/srzsantiago/SentinelAuth.git</RepositoryUrl>
 	<PackageIcon>logo-bg.png</PackageIcon>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageReadmeFile>README-Nuget.md</PackageReadmeFile>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<IncludeSymbols>true</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<IncludeSource>true</IncludeSource>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +26,7 @@
 
 	<ItemGroup>
 		<None Include="..\LICENSE" Pack="true" PackagePath=""/>
-		<None Include="..\README.md" Pack="true" PackagePath=""/>
+		<None Include="..\README-Nuget.md" Pack="true" PackagePath=""/>
 		<None Include="..\assets\img\logo-bg.png" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 

@@ -5,17 +5,23 @@ using SentinelAuth.Wrappers;
 
 namespace SentinelAuth.Authentication;
 
+/// <inheritdoc />
 public class PasswordManager(HashingConfig config, IArgonWrapper argonWrapper) : IPasswordManager
 {
     private readonly HashingConfig _config = config;
     private readonly IArgonWrapper _argonWrapper = argonWrapper;
 
-    // Default constructor (uses real implementation)
+    /// <summary>
+    /// Default constructor that uses the default settings for Argon2.
+    /// </summary>
     public PasswordManager() : this(new HashingConfig(), new ArgonWrapper())
     {
     }
 
-    // Constructor that allows setting a custom HashingConfig
+    /// <summary>
+    /// Constructor that allows setting a custom HashingConfig.
+    /// </summary>
+    /// <param name="hashingConfig"></param>
     public PasswordManager(HashingConfig hashingConfig) : this(hashingConfig, new ArgonWrapper())
     {
     }
@@ -23,12 +29,7 @@ public class PasswordManager(HashingConfig config, IArgonWrapper argonWrapper) :
     private const string _VERSION = "1.0";
     private const string _HASH_PREFIX = $"$SENHASH$V{_VERSION}";
 
-    /// <summary>
-    /// Takes a plain text (password) and applies argon algorithm with a given salt to the password.
-    /// </summary>
-    /// <param name="password"></param>
-    /// <param name="salt"></param>
-    /// <returns>Password hash</returns>
+    /// <inheritdoc />
     public string HashPassword(string password, byte[] salt)
     {
         byte[] passwordInBytes = Encoding.UTF8.GetBytes(password);
@@ -45,21 +46,13 @@ public class PasswordManager(HashingConfig config, IArgonWrapper argonWrapper) :
         return string.Format("{0}${1}${2}", _HASH_PREFIX, Convert.ToHexString(salt), Convert.ToHexString(passwordHash));
     }
 
-    /// <summary>
-    /// Generates a signed password hash from the given input which should be stored to further use.
-    /// </summary>
-    /// <returns>Password hash</returns>
+    /// <inheritdoc />
     public string CreateNewPasswordHash(string password)
     {
         return HashPassword(password, CreateSalt());
     }
 
-    /// <summary>
-    /// Compared a (plain text) password input with a (hashed) stored password and determines if the password is correc.
-    /// </summary>
-    /// <returns>
-    /// <b>true</b> if the passwords are equal; otherwise, <b>false</b>.
-    /// </returns>
+    /// <inheritdoc />
     public bool VerifyPassword(string passwordInput, string storedPasswordString)
     {
         if (!IsHashSupported(storedPasswordString))

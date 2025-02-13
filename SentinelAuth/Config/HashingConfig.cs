@@ -1,5 +1,8 @@
 ﻿namespace SentinelAuth.Config;
 
+/// <summary>
+/// Configuration class for the Argon2 hashing algorithm.
+/// </summary>
 public class HashingConfig
 {
     /// <summary>

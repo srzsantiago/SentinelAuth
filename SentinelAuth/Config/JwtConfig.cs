@@ -1,5 +1,8 @@
 ﻿namespace SentinelAuth.Config;
 
+/// <summary>
+/// Configuration class for the JWT token generation.
+/// </summary>
 public class JwtConfig
 {
     /// <summary>
