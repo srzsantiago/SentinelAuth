@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-<h4 align="center">A simple auth package that uses <a href="https://github.com/P-H-C/phc-winner-argon2" target="_blank">Argon2</a> for authentication and <a href="https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet" target="_blank">JWT</a> for authorization.</h4>
+<h4 align="center">A simple and lightweight authentication and authorization library for .NET applications that provides password hashing using <a href="https://github.com/P-H-C/phc-winner-argon2" target="_blank">Argon2</a> for authentication and <a href="https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet" target="_blank">JWT</a> token generation for authorization.</h4>
 
 <p align="center">
   <a href="https://badge.fury.io/nu/Cesala.SentinelAuth" target="_blank">
@@ -24,6 +24,7 @@
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
+  <a href="#installation">Installation</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
@@ -35,14 +36,107 @@
   - Uses <a href="https://github.com/P-H-C/phc-winner-argon2" target="_blank">Argon2</a> hashing algorithme following best practices.
 * Role-based access control (RBAC) with JWT roles. 
 
+## Installation
+To install the package, use the NuGet package manager or run the following command:
+```bash
+dotnet add package Cesala.SentinelAuth
+```
+
 ## How To Use
 
-To use this package, you'll need to install your desired version from the NuGet package manager or from your command line:
+### Register Dependency Injection
+Before using the package, register the necessary services in your Startup.cs or Program.cs file.
 
-```bash
-# Install the package
-$ dotnet add package Cesala.SentinelAuth
+#### PasswordManager
+Register the `PasswordManager` with the default (recommended) hashing settings:
+```code
+// Register PasswordManager for authentication with default settings
+services.AddScoped<IPasswordManager, PasswordManager>();
+```
+If you want to apply a custom hashing configuration, provide a `HashingConfig` instance:
+```code
+// Register PasswordManager with custom configuration
+services.AddScoped<IPasswordManager>(provider =>
+{
+    var config = new HashingConfig
+    {
+        MemorySize = 65536,
+        DegreeOfParallelism = 4,
+        Iterations = 4,
+        SaltSize = 16,
+        HashSize = 32,
+    };
+    return new PasswordManager(config);
+});
+```
 
+#### TokenManager
+The TokenManager requires a JwtConfig instance. Below is an example that retrieves configuration settings from `appsettings.json`.
+
+⚠ **Security Warning**: Storing sensitive data (such as secret keys) in appsettings.json is a security risk. In production, store these values in a secure vault or use environment variables.
+```code
+// Register TokenManager for authorization
+services.AddScoped<ITokenManager>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var jwtSettings = configuration.GetSection("JwtSettings");
+
+    var config = new JwtConfig
+    {
+        Secret = jwtSettings["Secret"]!,
+        Issuer = jwtSettings["Issuer"]!,
+        Audience = jwtSettings["Audience"]!,
+        ExpiryMinutes = int.Parse(jwtSettings["ExpiryMinutes"]!)
+    };
+
+    return new TokenManager(config);
+});
+```
+
+### Using the package
+💡 **Note**: Inject the interface via the class constructor where you want to use the manager.
+
+#### PasswordManager Usage
+The `PasswordManager` helps with password hashing and validation.
+
+```code
+// Create a new account and generate a password hash
+public User RegisterUser(RegisterRequest request)
+{
+    var hashedPassword = sentinelPasswordManager.CreateNewPasswordHash(request.Password);
+    var user = new User { Username = request.Username, Password = hashedPassword };
+
+    /**  Logic to add user to your system **/
+
+    return user;
+}
+
+// Validate a login attempt (compare provided password with stored hash)
+public User? ValidateUser(string username, string password)
+{
+    var user = /**  Logic to check if user exist and can be accessed **/
+    if (!sentinelPasswordManager.VerifyPassword(password, user.PasswordHash))
+        return null;
+
+    return user;
+}
+```
+
+#### TokenManager Usage
+The `TokenManager` generates JWT tokens containing user ID, role, and username as claims.
+```code
+// Generate a JWT token for a user
+public string GenerateJwtToken(User user)
+{
+    var sentinelUser = new SentinelUser
+    {
+        Id = user.Id,
+        Role = user.Role.ToString(),
+        Username = user.Username
+    };
+
+    return sentinelTokenManager.GenerateJwtToken(sentinelUser);
+}
 ```
 
 ## Credits
